@@ -28,6 +28,11 @@
             <string>///Core - Game Settings
 gVersion = "indev 1.0";
 gName = "CRI";
+
+//debug array
+for (i=0 ; i &lt; 20 ; i++){
+    debug_vars[i,0] = ""; 
+}
 </string>
           </argument>
         </arguments>
@@ -387,36 +392,30 @@ scr_room_to_objects(rm_denial, rom_denial, con_level );
           <argument>
             <kind>1</kind>
             <string>///Core - Debug 
-
+var varDraw = "";
 //Hit ctrl+D to activate Debug mode
 if debugMode = true{
-    textDraw =  
-                "Room: "+string(room_get_name(room))+"#"
+    textDraw =  "Room: "+string(room_get_name(room))+"#"
                 +"View Enabled: " + string(view_enabled) +"#"
                 +"View X: " + string(view_xview) +"#"
                 +"View Y: " + string(view_yview) +"#"
                 +"Port X: " + string(view_wport) +"#"
                 +"Port Y: " + string(view_hport) +"#"
-                +"v0: "+string(test0)+"#" 
-                +"v1: "+string(test1)+"#" 
-                +"v2: "+string(test2)+"#"
-                +"v3: "+string(test3)+"#"
-                +"v4: "+string(test4)+"#"
-                +"v5: "+string(test5)+"#"
-                +"v6: "+string(test6)+"#"
-                +"v7: "+string(test7)+"#"
-                +"v8: "+string(test8)+"#"
-                +"v9: "+string(test9)+"#";
+    for (i = 0 ; i &lt; array_height_2d(debug_vars) ; i++){
+        if debug_vars[i,0] != ""{
+            varDraw += string(debug_vars[i,0]) + " : " + string( debug_vars[i,1] ) + "#"; 
+        }else break; 
+    }
                 
-    var a = round(string_width(textDraw)/40)*40, 
-        b = round(string_height(textDraw)/40)*40,
+    var a = round(string_width(textDraw + varDraw)/40)*40, 
+        b = round(string_height(textDraw + varDraw)/40)*40,
         c = c_white;   
     draw_set_alpha(.5);                 
     draw_rectangle_color(25, 25, a+50, b+100, c, c, c, c, false);  
     draw_set_alpha(1);                  
     draw_set_color(c_black);
     draw_set_font(foDefault);
-    draw_text(30,30, textDraw);
+    draw_text(30,30, textDraw + varDraw);
     draw_set_font(-1); 
 }
 

@@ -75,6 +75,7 @@
       <script>scripts\scr_obj_to_rooms.gml</script>
       <script>scripts\scr_room_to_objects.gml</script>
       <script>scripts\MasterControlREADME.gml</script>
+      <script>scripts\scr_track.gml</script>
     </scripts>
     <scripts name="Tools">
       <script>scripts\showMessage.gml</script>
