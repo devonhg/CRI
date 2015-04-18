@@ -101,7 +101,10 @@ state_look_dir = sign(mouse_x - x);
 
 state_m_dir = -state_m_left + state_m_right;
 
+var mdif = sign(angle_difference( point_direction(x,y,mouse_x, mouse_y), scr_convert_angle(image_angle - 90) ) );
 
+scr_track("Image Angle", scr_convert_angle(image_angle)); 
+scr_track("Angle Difference", mdif);
 </string>
           </argument>
         </arguments>

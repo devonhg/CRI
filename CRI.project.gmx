@@ -184,10 +184,6 @@
         </objects>
       </objects>
     </objects>
-    <objects name="CannonParent">
-      <object>objects\can_par</object>
-      <object>objects\can_can</object>
-    </objects>
     <objects name="Aura">
       <object>objects\obj_Aura_Control</object>
       <object>objects\Aura_DEMO_Control</object>
