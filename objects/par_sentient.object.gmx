@@ -257,14 +257,14 @@ if state_a_holding s_index = 0 else s_index = 1
 //Draw Back Arm
     if state_look_dir = 1{    
     
-        if state_a_holding arm_back_angle_set = 30
-        else arm_back_angle_set = 0;          
+        //if state_a_holding arm_back_angle_set = 30
+        //else arm_back_angle_set = 0;          
         
         arm_back_angle += scr_rotate_to( arm_back_angle, arm_back_angle_set, 5);
         scr_draw_limb(65, 17, image_angle + arm_back_angle, s_arm, 0, -1, 1);    
     }else{    
-        if state_a_holding arm_back_angle_set = 330
-        else arm_back_angle_set = 0;  
+        //if state_a_holding arm_back_angle_set = 330
+        //else arm_back_angle_set = 0;  
         
         arm_back_angle += scr_rotate_to( arm_back_angle, arm_back_angle_set, 5);
         scr_draw_limb(115, 17, image_angle + arm_back_angle, s_arm, 0,1,1);
