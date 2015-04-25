@@ -42,6 +42,10 @@
             <string>s_arm = spr_cri_arm;
 s_head = spr_cri_head; 
 
+phy_angular_damping = 2; 
+
+rotation_speed = 30; 
+
 player_angle = 0; 
 </string>
           </argument>
@@ -81,6 +85,9 @@ player_angle = 0;
             <kind>1</kind>
             <string>///States
 
+var mdif = sign(angle_difference( point_direction(x,y,mouse_x, mouse_y), scr_convert_angle(image_angle - 90) ) );
+
+
 //obtain instance id of currently grabbed object. 
 if con_control.key_grab or con_control.key_hold{
     nearGrab = instance_position(mouse_x,mouse_y, par_grabbable); 
@@ -97,11 +104,10 @@ state_m_up = con_control.key_up;
 state_m_down = con_control.key_down;
 
 state_a_holding = obj_holding.holding;
-state_look_dir = sign(mouse_x - x);
+state_look_dir = mdif;//sign(mouse_x - x);
 
 state_m_dir = -state_m_left + state_m_right;
 
-var mdif = sign(angle_difference( point_direction(x,y,mouse_x, mouse_y), scr_convert_angle(image_angle - 90) ) );
 
 scr_track("Image Angle", scr_convert_angle(image_angle)); 
 scr_track("Angle Difference", mdif);
@@ -157,16 +163,30 @@ if ( instance_exists(con_level) ){
     if con_control.key_rotate_left{
         //con_level.world_angle -= 1;
         
-        phy_rotation -= 2; 
+        //phy_rotation -= 2; 
+        
+        phy_angular_velocity = -rotation_speed;
+        
     }else if con_control.key_rotate_right{
-        phy_rotation += 2;
+        //phy_rotation += 2;
+
+        phy_angular_velocity = rotation_speed; 
+        
         //con_level.world_angle += 1; 
     }
+    
+    view_angle = phy_rotation; 
+    
 }
 
 if (!state_m_left and !state_m_right){
     //phy_rotation = player_angle;
 }
+
+var ang = point_direction(phy_position_x, phy_position_y-20, mouse_x, mouse_y) + phy_rotation;
+var dif = angle_difference(ang, head_angle);
+head_angle = scr_convert_angle(head_angle)
+head_angle += median(-5, dif, 5); 
 </string>
           </argument>
         </arguments>

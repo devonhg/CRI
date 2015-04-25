@@ -136,30 +136,52 @@ state_m_dir = -state_m_left + state_m_right;
           <argument>
             <kind>1</kind>
             <string>///State Conditions
-
-if state_m_dir = -1{
-    //if phy_rotation &gt;= -14{ phy_rotation -= 1; }   
-    physics_apply_force(x,y,-maxSpeed,0);
-}
-
-if state_m_dir = 1{
-    //if phy_rotation &lt;= 14{ phy_rotation += 1; }    
-    physics_apply_force(x,y,maxSpeed,0); 
-}
-
-
-if state_m_dir = 0{
-    //if phy_rotation &gt; 0 phy_rotation -= 1;
-    //if phy_rotation &lt; 0 phy_rotation += 1; 
-}
-
-if state_m_up{
-    physics_apply_force(x,y,0,-maxSpeed);
-}
-
-if state_m_down{
-    physics_apply_force(x,y,0,maxSpeed);
-}
+    //Left
+    if state_m_dir = -1{
+        //if phy_rotation &gt;= -14{ phy_rotation -= 1; }   
+        //physics_apply_force(x,y,-maxSpeed,0);
+        var goAng = 180,
+            XX = lengthdir_x(maxSpeed, image_angle + goAng ),
+            YY = lengthdir_y(maxSpeed, image_angle + goAng );
+        
+        physics_apply_force(x,y, XX , YY);
+    }
+    
+    //Right
+    if state_m_dir = 1{
+        //if phy_rotation &lt;= 14{ phy_rotation += 1; }    
+        //physics_apply_force(x,y,maxSpeed,0); 
+        
+        var goAng = 0,
+            XX = lengthdir_x(maxSpeed, image_angle + goAng ),
+            YY = lengthdir_y(maxSpeed, image_angle + goAng );
+        
+        physics_apply_force(x,y, XX , YY);
+        
+    }
+    
+    //Up
+    if state_m_up{
+        var goAng = 90,
+            XX = lengthdir_x(maxSpeed, image_angle + goAng ),
+            YY = lengthdir_y(maxSpeed, image_angle + goAng );
+        
+        physics_apply_force(x,y, XX , YY);
+    
+        //physics_apply_force(x,y,0,-maxSpeed);
+    }
+    
+    //Down
+    if state_m_down{
+    
+        var goAng = 270,
+            XX = lengthdir_x(maxSpeed, image_angle + goAng ),
+            YY = lengthdir_y(maxSpeed, image_angle + goAng );
+        
+        physics_apply_force(x,y, XX , YY);
+    
+        //physics_apply_force(x,y,0,maxSpeed);
+    }
 
 image_xscale = state_look_dir; 
 </string>
@@ -264,11 +286,11 @@ if state_a_holding s_index = 0 else s_index = 1
     }
     
 //Head
-    var ang = point_direction(phy_position_x, phy_position_y-20, mouse_x, mouse_y);
-    var dif = angle_difference(ang, head_angle);
+    //var ang = point_direction(phy_position_x, phy_position_y-20, mouse_x, mouse_y);
+    //var dif = angle_difference(ang, head_angle);
     
-    head_angle = scr_convert_angle(head_angle)
-    head_angle += median(-5, dif, 5); 
+    //head_angle = scr_convert_angle(head_angle)
+    //head_angle += median(-5, dif, 5); 
 
     if state_look_dir = 1{   
         head_angle = angle_clamp(head_angle, 0, 30);  
