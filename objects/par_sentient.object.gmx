@@ -53,6 +53,11 @@
             <kind>1</kind>
             <string>///Set Variables
 
+/* Rotation Variables */
+
+    rotation_base = phy_rotation; 
+    rotation_adjust = 0;
+
 /* Directly Editable Values */
 
     maxSpeed = 400;
@@ -184,6 +189,8 @@ state_m_dir = -state_m_left + state_m_right;
     }
 
 image_xscale = state_look_dir; 
+
+phy_rotation = rotation_base + rotation_adjust;
 </string>
           </argument>
         </arguments>

@@ -44,7 +44,7 @@ s_head = spr_cri_head;
 
 phy_angular_damping = 2; 
 
-rotation_speed = 30; 
+rotation_speed = 1; 
 
 player_angle = 0; 
 angle_adjst = 0; 
@@ -86,7 +86,7 @@ angle_adjst = 0;
             <kind>1</kind>
             <string>///States
 
-var mdif = sign(angle_difference( point_direction(x,y,mouse_x, mouse_y), scr_convert_angle(image_angle - 90) ) );
+mdif = sign(angle_difference( point_direction(x,y,mouse_x, mouse_y), scr_convert_angle(image_angle - 90) ) );
 
 
 //obtain instance id of currently grabbed object. 
@@ -160,20 +160,52 @@ and distance_to_point(nearGrab.x, nearGrab.y) &lt; 50{
             <kind>1</kind>
             <string>///Rotation/Angle handling
 
+var chkx, chky,
+    can_rotate,
+    chka, chkLeft,
+    chkRight; 
+    
+    if mdif = 1 chka = 180;
+    else chka = 0; 
+
+    chkx = lengthdir_x( sprite_width * 1.5, image_angle + chka );
+    chky = lengthdir_y( sprite_width * 1.5, image_angle + chka );
+
+    chkLeft = position_meeting( x + chkx, y + chky,obj_wall);
+    
+    if mdif = 1 chka = 0;
+    else chka = 180; 
+
+    chkx = lengthdir_x( sprite_width * 1.5, image_angle + chka );
+    chky = lengthdir_y( sprite_width * 1.5, image_angle + chka );
+
+    chkRight = position_meeting( x + chkx, y + chky,obj_wall);
+
+scr_track( "player_angle" , string( image_angle ) );
+
 if ( instance_exists(con_level) ){
-    if con_control.key_rotate_left{
+
+
+    
+    if con_control.key_rotate_left and !chkLeft{
         //con_level.world_angle -= 1;
         
         //phy_rotation -= 2; 
         
-        phy_angular_velocity = -rotation_speed;
+        //phy_angular_velocity = -rotation_speed;
         
-    }else if con_control.key_rotate_right{
+        rotation_base += -rotation_speed;
+        
+    }
+    
+    if con_control.key_rotate_right and !chkRight{
         //phy_rotation += 2;
 
-        phy_angular_velocity = rotation_speed; 
+        //phy_angular_velocity = rotation_speed; 
         
         //con_level.world_angle += 1; 
+        
+        rotation_base += rotation_speed;
     }
     
     view_angle = phy_rotation; 
