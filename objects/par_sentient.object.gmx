@@ -146,8 +146,10 @@ state_m_dir = -state_m_left + state_m_right;
         //if phy_rotation &gt;= -14{ phy_rotation -= 1; }   
         //physics_apply_force(x,y,-maxSpeed,0);
         var goAng = 180,
-            XX = lengthdir_x(maxSpeed, image_angle + goAng ),
-            YY = lengthdir_y(maxSpeed, image_angle + goAng );
+            XX = lengthdir_x(maxSpeed, (-rotation_base + goAng)),
+            YY = lengthdir_y(maxSpeed, (-rotation_base + goAng));
+            
+            if rotation_adjust &gt; -15 rotation_adjust --;
         
         physics_apply_force(x,y, XX , YY);
     }
@@ -158,18 +160,25 @@ state_m_dir = -state_m_left + state_m_right;
         //physics_apply_force(x,y,maxSpeed,0); 
         
         var goAng = 0,
-            XX = lengthdir_x(maxSpeed, image_angle + goAng ),
-            YY = lengthdir_y(maxSpeed, image_angle + goAng );
+            XX = lengthdir_x(maxSpeed, (-rotation_base + goAng)),
+            YY = lengthdir_y(maxSpeed, (-rotation_base + goAng));
+            
+            if rotation_adjust &lt; 15 rotation_adjust ++;
         
         physics_apply_force(x,y, XX , YY);
         
     }
     
+    if state_m_dir = 0 and rotation_adjust != 0{
+        if rotation_adjust &gt; 0 rotation_adjust --;
+        if rotation_adjust &lt; 0 rotation_adjust ++;
+    }
+    
     //Up
     if state_m_up{
         var goAng = 90,
-            XX = lengthdir_x(maxSpeed, image_angle + goAng ),
-            YY = lengthdir_y(maxSpeed, image_angle + goAng );
+            XX = lengthdir_x(maxSpeed, (-rotation_base + goAng)),
+            YY = lengthdir_y(maxSpeed, (-rotation_base + goAng));
         
         physics_apply_force(x,y, XX , YY);
     
@@ -180,8 +189,8 @@ state_m_dir = -state_m_left + state_m_right;
     if state_m_down{
     
         var goAng = 270,
-            XX = lengthdir_x(maxSpeed, image_angle + goAng ),
-            YY = lengthdir_y(maxSpeed, image_angle + goAng );
+            XX = lengthdir_x(maxSpeed, (-rotation_base + goAng)),
+            YY = lengthdir_y(maxSpeed, (-rotation_base + goAng));
         
         physics_apply_force(x,y, XX , YY);
     
@@ -262,19 +271,14 @@ var ang_di;//Angle Difference;
 if state_a_holding s_index = 0 else s_index = 1
 
 //Draw Back Arm
-    if state_look_dir = 1{    
-    
-        //if state_a_holding arm_back_angle_set = 30
-        //else arm_back_angle_set = 0;          
-        
+    if state_look_dir = 1{             
+        arm_back_angle_set = -rotation_base;
         arm_back_angle += scr_rotate_to( arm_back_angle, arm_back_angle_set, 5);
-        scr_draw_limb(65, 17, image_angle + arm_back_angle, s_arm, 0, -1, 1);    
+        scr_draw_limb(65, 17, /*image_angle +*/ arm_back_angle, s_arm, 0, -1, 1);    
     }else{    
-        //if state_a_holding arm_back_angle_set = 330
-        //else arm_back_angle_set = 0;  
-        
+        arm_back_angle_set = -rotation_base;
         arm_back_angle += scr_rotate_to( arm_back_angle, arm_back_angle_set, 5);
-        scr_draw_limb(115, 17, image_angle + arm_back_angle, s_arm, 0,1,1);
+        scr_draw_limb(115, 17,/*image_angle + */arm_back_angle, s_arm, 0,1,1);
     }
 
 //Draw Body
@@ -284,14 +288,14 @@ if state_a_holding s_index = 0 else s_index = 1
 
 //Draw Front Arm
     if state_look_dir = 1{   
+        arm_front_angle_set = -rotation_base;
         arm_front_angle += scr_rotate_to(arm_front_angle, arm_front_angle_set, 5);
-        scr_draw_limb(115, 17, image_angle + arm_front_angle, s_arm, 0, 1, 1);    
+        scr_draw_limb(115, 17, /*image_angle +*/ arm_front_angle, s_arm, 0, 1, 1);    
     }else{
-    
+        arm_front_angle_set = -rotation_base; 
         arm_front_angle += scr_rotate_to(arm_front_angle, arm_front_angle_set, 5);
-        scr_draw_limb(65, 17, image_angle + arm_front_angle, s_arm, 0, -1, 1);
+        scr_draw_limb(65, 17, /*image_angle +*/ arm_front_angle, s_arm, 0, -1, 1);
     }
-    
 //Head
     //var ang = point_direction(phy_position_x, phy_position_y-20, mouse_x, mouse_y);
     //var dif = angle_difference(ang, head_angle);

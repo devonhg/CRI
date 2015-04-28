@@ -208,7 +208,7 @@ if ( instance_exists(con_level) ){
         rotation_base += rotation_speed;
     }
     
-    view_angle = phy_rotation; 
+    view_angle = rotation_base; 
     
 }
 
