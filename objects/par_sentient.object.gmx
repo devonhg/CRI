@@ -271,14 +271,14 @@ var ang_di;//Angle Difference;
 if state_a_holding s_index = 0 else s_index = 1
 
 //Draw Back Arm
-    if state_look_dir = 1{             
-        arm_back_angle_set = -rotation_base;
+    if state_look_dir = 1{     
+        if !state_a_holding{ arm_back_angle_set = -rotation_base; }
         arm_back_angle += scr_rotate_to( arm_back_angle, arm_back_angle_set, 5);
-        scr_draw_limb(65, 17, /*image_angle +*/ arm_back_angle, s_arm, 0, -1, 1);    
+        scr_draw_limb(65, 17, arm_back_angle, s_arm, 0, -1, 1);    
     }else{    
-        arm_back_angle_set = -rotation_base;
+        if !state_a_holding arm_back_angle_set = -rotation_base;
         arm_back_angle += scr_rotate_to( arm_back_angle, arm_back_angle_set, 5);
-        scr_draw_limb(115, 17,/*image_angle + */arm_back_angle, s_arm, 0,1,1);
+        scr_draw_limb(115, 17, arm_back_angle, s_arm, 0,1,1);
     }
 
 //Draw Body
@@ -290,19 +290,13 @@ if state_a_holding s_index = 0 else s_index = 1
     if state_look_dir = 1{   
         arm_front_angle_set = -rotation_base;
         arm_front_angle += scr_rotate_to(arm_front_angle, arm_front_angle_set, 5);
-        scr_draw_limb(115, 17, /*image_angle +*/ arm_front_angle, s_arm, 0, 1, 1);    
+        scr_draw_limb(115, 17, arm_front_angle, s_arm, 0, 1, 1);    
     }else{
         arm_front_angle_set = -rotation_base; 
         arm_front_angle += scr_rotate_to(arm_front_angle, arm_front_angle_set, 5);
-        scr_draw_limb(65, 17, /*image_angle +*/ arm_front_angle, s_arm, 0, -1, 1);
+        scr_draw_limb(65, 17, arm_front_angle, s_arm, 0, -1, 1);
     }
 //Head
-    //var ang = point_direction(phy_position_x, phy_position_y-20, mouse_x, mouse_y);
-    //var dif = angle_difference(ang, head_angle);
-    
-    //head_angle = scr_convert_angle(head_angle)
-    //head_angle += median(-5, dif, 5); 
-
     if state_look_dir = 1{   
         head_angle = angle_clamp(head_angle, 0, 30);  
         scr_draw_limb(90, 20, image_angle + head_angle, s_head, s_index,1,1);

@@ -216,10 +216,10 @@ if ( instance_exists(con_level) ){
 
 //Arm Angles
     if state_look_dir = 1{
-        if state_a_holding arm_back_angle_set = 30
+        if state_a_holding arm_back_angle_set = -rotation_base + 30
         else arm_back_angle_set = 0;    
     }else{
-        if state_a_holding arm_back_angle_set = 330
+        if state_a_holding arm_back_angle_set = -rotation_base + 330
         else arm_back_angle_set = 0;  
     }
    
