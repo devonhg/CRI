@@ -238,7 +238,7 @@ if !state_m_up and !state_m_down{
     }
 }
 
-physics_apply_force(x,y, 0, (-15 * phy_mass))
+//physics_apply_force(x,y, 0, (-15 * phy_mass))
 
 </string>
           </argument>

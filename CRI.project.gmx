@@ -101,6 +101,7 @@
     </scripts>
     <scripts name="Physics">
       <script>scripts\scr_phy_followObject.gml</script>
+      <script>scripts\scr_set_gravity.gml</script>
     </scripts>
     <scripts name="Aura">
       <scripts name="Engine">

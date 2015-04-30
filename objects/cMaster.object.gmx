@@ -124,7 +124,7 @@ instance_create(x,y, cTrans);
           <argument>
             <kind>1</kind>
             <string>///Physics Function
-physics_world_gravity(phy_xgrav, phy_ygrav);  
+//physics_world_gravity(phy_xgrav, phy_ygrav);  
 </string>
           </argument>
         </arguments>

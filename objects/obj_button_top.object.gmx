@@ -71,7 +71,7 @@ phy_position_x &lt; _base.phy_position_x{
 if phy_position_y &lt; _max_height{
     phy_position_y = _max_height;
 }else{
-    _thrust = -200;
+    scr_set_gravity( image_angle + 90 , (1 * phy_mass) );
 }
 
 //Conditions for if it's on or not. 
@@ -82,7 +82,9 @@ if point_distance(_base.x,_base.y,x,y) &lt; 2{
 }
 
 //Hover code/Force application. 
-physics_apply_force(x,y, 0, (-15 * phy_mass) + _thrust);
+//physics_apply_force(x,y, 0, (-15 * phy_mass) + _thrust);
+
+
 </string>
           </argument>
         </arguments>
