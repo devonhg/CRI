@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -29,6 +29,313 @@
 /*
     This purpose of this object is to enforce all the games settings. 
 */
+
+instance_create(x,y,cMaster); 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Core - Game Settings
+//gVersion = "indev 1.0";
+//gName = "CRI";
+
+//debug array
+for (i=0 ; i &lt; 20 ; i++){
+    debug_vars[i,0] = ""; 
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Core - Variables
+debugMode = false;
+Paused = false;
+gameSpeed = 60;
+test0 = 0;
+test1 = 0;
+test2 = 0;
+test3 = 0;
+test4 = 0;
+test5 = 0;
+test6 = 0;
+test7 = 0;
+test8 = 0;
+test9 = 0; 
+xGrid = 16;
+yGrid = 16;
+
+phy_xgrav = 0;
+phy_ygrav = 15;
+
+phy_xgrav_set = phy_xgrav;
+phy_ygrav_set = phy_ygrav;
+
+world_rotation = 0; 
+
+//window_set_caption(gName + " " + gVersion);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Core - Event and Command Handling 
+
+//The code that runs all the custom events
+if !Paused{
+    with (all){
+        event_perform(ev_other, ev_user0); //Begin Step
+        event_perform(ev_other, ev_user1); //Step
+        event_perform(ev_other, ev_user2); //End Step
+        //event_perform(ev_other, ev_user3); //Pauseable Code
+        if image_speed != 0 image_speed = 0; 
+        x = round(x);
+        y = round(y); 
+        
+    }   
+    with (par_physics){
+        phy_active = true;
+    }
+    //phy_xgrav = phy_xgrav_set;
+    //phy_ygrav = phy_ygrav_set; 
+}else{
+    with (all){
+        path_speed = 0;
+         
+    }
+    with (par_physics){
+        phy_active = false;
+    }
+    
+    //phy_xgrav = 0;
+    //phy_ygrav = 0; 
+    
+
+    
+}
+
+
+
+//Developer Short Keys
+if keyboard_check(vk_control) and keyboard_check_pressed(ord("Q")) game_end();
+if keyboard_check(vk_control) and keyboard_check_pressed(ord("D")) debugMode = !debugMode;
+if keyboard_check(vk_control) and keyboard_check_pressed(ord("R")) game_restart();
+if keyboard_check(vk_control) and keyboard_check_pressed(ord("F")) window_set_fullscreen(!(window_get_fullscreen()));
+if keyboard_check(vk_control) and keyboard_check_pressed(ord('P')) Paused = !Paused;
+
+//Debug mode camera control
+if debugMode = true{
+    if keyboard_check(vk_numpad8) view_yview -= 1;
+    if keyboard_check(vk_numpad4) view_xview -= 1;
+    if keyboard_check(vk_numpad6) view_xview += 1;
+    if keyboard_check(vk_numpad2) view_yview += 1;
+}
+show_debug_overlay(debugMode);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Core - Cleanup
+    if debugMode = true debugMode = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Physics Functions
+    physics_world_create(0.1);                      //Pixel to meters scale
+    physics_world_update_iterations(20);            //iterations per step
+    physics_world_update_speed(global.framerate); 
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Core - Room Management
+    if !(room_speed = global.framerate) room_speed = global.framerate;
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Window Handling
+    scrFullWindow(global.window_height,0);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Core - Debug 
+//Hit ctrl+D to activate Debug mode
+
+//Draw the Debug Interface
+    var varDraw = "";
+    if debugMode = true{
+    
+        //Default Draw Values
+        textDraw =  "Room: "+string(room_get_name(room))+"#"
+                    +"View Enabled: " + string(view_enabled) +"#"
+                    +"View X: " + string(view_xview) +"#"
+                    +"View Y: " + string(view_yview) +"#"
+                    +"Port X: " + string(view_wport) +"#"
+                    +"Port Y: " + string(view_hport) +"#"
+                    +"View Rotation: " + string( scr_convert_angle( view_angle )) +"#" 
+                    +"Title: " + string(global.title) +"#"
+                    +"Version: " + string(global.version) +"#" 
+                    
+        //Get the values added by scr_track script                                    
+        for (i = 0 ; i &lt; array_height_2d(debug_vars) ; i++){
+            if debug_vars[i,0] != ""{
+                varDraw += string(debug_vars[i,0]) + " : " + string( debug_vars[i,1] ) + "#"; 
+            }else break; 
+        }
+             
+        //Box properties       
+        var a = round(string_width(textDraw + varDraw)/40)*40, 
+            b = round(string_height(textDraw + varDraw)/40)*40,
+            c = c_white; 
+            
+        //Draw the debug menu  
+        draw_set_alpha(.5);                 
+        draw_rectangle_color(25, 25, a+50, b+100, c, c, c, c, false);  
+        draw_set_alpha(1);                  
+        draw_set_color(c_black);
+        draw_set_font(foDefault);
+        draw_text(30,30, textDraw + varDraw);
+        draw_set_font(-1); 
+    }
+
 </string>
           </argument>
         </arguments>
