@@ -130,6 +130,9 @@
       <script>scripts\scr_angleRotate.gml</script>
       <script>scripts\olddrawcode.gml</script>
     </scripts>
+    <scripts name="Core">
+      <script>scripts\scr_ini.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\foDefault</font>
@@ -184,6 +187,7 @@
           <object>objects\rom_denial</object>
         </objects>
       </objects>
+      <object>objects\cGame</object>
     </objects>
     <objects name="Aura">
       <object>objects\obj_Aura_Control</object>
@@ -210,9 +214,9 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_ini</room>
+    <room>rooms\rm_intro</room>
     <room>rooms\rm_core</room>
     <room>rooms\rm_test</room>
-    <room>rooms\rm_intro</room>
     <room>rooms\room_can</room>
     <rooms name="Stages">
       <room>rooms\rm_denial</room>

@@ -26,8 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>///Core - Game Settings
-gVersion = "indev 1.0";
-gName = "CRI";
+//gVersion = "indev 1.0";
+//gName = "CRI";
 
 //debug array
 for (i=0 ; i &lt; 20 ; i++){
@@ -78,7 +78,7 @@ phy_ygrav_set = phy_ygrav;
 
 world_rotation = 0; 
 
-window_set_caption(gName + " " + gVersion);
+//window_set_caption(gName + " " + gVersion);
 </string>
           </argument>
         </arguments>
@@ -321,8 +321,8 @@ physics_world_update_speed(60);
           <argument>
             <kind>1</kind>
             <string>///Core - Room Management
-if !(room_speed = gameSpeed) room_speed = gameSpeed;
-if room = rm_ini room_goto_next(); 
+    if !(room_speed = global.framerate) room_speed = global.framerate;
+    //if room = rm_ini room_goto_next(); 
 </string>
           </argument>
         </arguments>
@@ -344,10 +344,10 @@ if room = rm_ini room_goto_next();
           <argument>
             <kind>1</kind>
             <string>///Core - Controller Inclusions 
-scr_obj_to_rooms(rom_intro, rm_intro);
-scr_obj_to_rooms(con_level, rm_core);
-scr_room_to_objects(rm_test, rom_test, con_level ); 
-scr_room_to_objects(rm_denial, rom_denial, con_level ); 
+    scr_obj_to_rooms(rom_intro, rm_intro);
+    scr_obj_to_rooms(con_level, rm_core);
+    scr_room_to_objects(rm_test, rom_test, con_level ); 
+    scr_room_to_objects(rm_denial, rom_denial, con_level ); 
 </string>
           </argument>
         </arguments>
@@ -368,7 +368,7 @@ scr_room_to_objects(rm_denial, rom_denial, con_level );
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>scrFullWindow(250,0);
+            <string>scrFullWindow(global.window_height,0);
 </string>
           </argument>
         </arguments>
