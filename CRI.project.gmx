@@ -9,6 +9,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\spr_test</sprite>
+    <sprite>sprites\spr_test_large</sprite>
     <sprite>sprites\spr_enemy</sprite>
     <sprite>sprites\spr_wall</sprite>
     <sprite>sprites\spr_collision</sprite>
@@ -49,6 +50,11 @@
         <sprite>sprites\spr_Aura_Torch</sprite>
       </sprites>
     </sprites>
+    <sprites name="Buttons">
+      <sprite>sprites\spr_button</sprite>
+    </sprites>
+    <sprite>sprites\spr_cri_logo</sprite>
+    <sprite>sprites\spr_logo_2</sprite>
   </sprites>
   <backgrounds name="background">
     <backgrounds name="Aura">
@@ -92,6 +98,9 @@
       </scripts>
       <script>scripts\scr_ar_add.gml</script>
       <script>scripts\phy_calc_speed.gml</script>
+      <script>scripts\point_on_line.gml</script>
+      <script>scripts\scr_itm_att.gml</script>
+      <script>scripts\scr_zero.gml</script>
     </scripts>
     <scripts name="Screen">
       <script>scripts\scrFullWindow.gml</script>
@@ -132,6 +141,11 @@
     </scripts>
     <scripts name="Core">
       <script>scripts\scr_ini.gml</script>
+      <script>scripts\scr_testgrid.gml</script>
+    </scripts>
+    <scripts name="Menu Grid">
+      <script>scripts\scr_mgWidth.gml</script>
+      <script>scripts\scr_mgHeight.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
@@ -141,6 +155,10 @@
     </fonts>
   </fonts>
   <objects name="objects">
+    <objects name="Structure">
+      <object>objects\obj_incline_1x1</object>
+      <object>objects\obj_wall</object>
+    </objects>
     <object>objects\oButton</object>
     <objects name="Parents">
       <object>objects\par_reactive</object>
@@ -154,11 +172,10 @@
       </objects>
       <object>objects\par_breakable</object>
       <object>objects\par_sentient</object>
+      <object>objects\par_phy_item</object>
+      <object>objects\par_phy_item_dyn</object>
     </objects>
     <objects name="Gameplay">
-      <object>objects\obj_wall</object>
-      <object>objects\obj_incline_1x1</object>
-      <object>objects\obj_test</object>
       <object>objects\obj_player</object>
       <object>objects\obj_player_backup</object>
       <objects name="Interactable">
@@ -172,6 +189,13 @@
         </objects>
       </objects>
       <object>objects\obj_enemy_booper</object>
+      <objects name="Grabbable Items">
+        <object>objects\obj_test</object>
+        <object>objects\obj_grab_item_sm</object>
+        <object>objects\obj_grab_item_sm_dyn</object>
+        <object>objects\obj_grab_item_lg</object>
+        <object>objects\obj_grab_item_lg_dyn</object>
+      </objects>
     </objects>
     <objects name="Controllers">
       <object>objects\cMaster</object>
@@ -185,6 +209,7 @@
           <object>objects\rom_intro</object>
           <object>objects\rom_test</object>
           <object>objects\rom_denial</object>
+          <object>objects\rom_mainmenu</object>
         </objects>
       </objects>
       <object>objects\cGame</object>
@@ -214,8 +239,9 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_ini</room>
-    <room>rooms\rm_intro</room>
     <room>rooms\rm_core</room>
+    <room>rooms\rm_intro</room>
+    <room>rooms\rm_mainmenu</room>
     <room>rooms\rm_test</room>
     <room>rooms\room_can</room>
     <rooms name="Stages">

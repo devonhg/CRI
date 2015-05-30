@@ -39,15 +39,22 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>s_arm = spr_cri_arm;
-s_head = spr_cri_head; 
+            <string>//Ragdoll Variables
+    s_arm = spr_cri_arm;
+    s_head = spr_cri_head; 
 
-phy_angular_damping = 2; 
+//Physics Attributes
+    phy_angular_damping = 2; 
 
-rotation_speed = 1; 
-
-player_angle = 0; 
-angle_adjst = 0; 
+//Base Settings
+    rotation_speed = 1; 
+    
+    player_angle = 0; 
+    angle_adjst = 0; 
+    
+    obj_holding = -4; 
+    state_a_holding = false; 
+    nearGrab = -4; 
 </string>
           </argument>
         </arguments>
@@ -85,33 +92,33 @@ angle_adjst = 0;
           <argument>
             <kind>1</kind>
             <string>///States
+    mdif = sign(angle_difference( point_direction(x,y,mouse_x, mouse_y), scr_convert_angle(image_angle - 90) ) );
 
-mdif = sign(angle_difference( point_direction(x,y,mouse_x, mouse_y), scr_convert_angle(image_angle - 90) ) );
 
-
-//obtain instance id of currently grabbed object. 
-if con_control.key_grab or con_control.key_hold{
-    nearGrab = instance_position(mouse_x,mouse_y, par_grabbable); 
-    if nearGrab != -4{
-        obj_holding = nearGrab;
+//Object Grabbing Code
+    if instance_exists( par_grabbable ){
+        if con_control.key_grab or con_control.key_hold{
+            nearGrab = instance_position(mouse_x,mouse_y, par_grabbable); 
+            if nearGrab != -4 and obj_holding = -4{
+                obj_holding = nearGrab;
+            }
+        }else if !con_control.key_grab and !con_control.key_hold{
+            obj_holding = -4;
+        } 
+        
+        if ( obj_holding != -4 ) state_a_holding = true; 
+        else state_a_holding = false; 
     }
-}else if !con_control.key_grab and !con_control.key_hold{
-    obj_holding = -4;
-} 
-
-state_m_left = con_control.key_left;
-state_m_right = con_control.key_right;
-state_m_up = con_control.key_up;
-state_m_down = con_control.key_down;
-
-state_a_holding = obj_holding.holding;
-state_look_dir = mdif;//sign(mouse_x - x);
-
-state_m_dir = -state_m_left + state_m_right;
-
-
-scr_track("Image Angle", scr_convert_angle(image_angle)); 
-scr_track("Angle Difference", mdif);
+scr_track( "Held Object", obj_holding );
+scr_track( "Near Grab", nearGrab );
+//State Variables
+    state_look_dir = mdif;   
+    state_m_left = con_control.key_left;
+    state_m_right = con_control.key_right;
+    state_m_up = con_control.key_up;
+    state_m_down = con_control.key_down;
+        
+    state_m_dir = -state_m_left + state_m_right;
 </string>
           </argument>
         </arguments>
@@ -132,12 +139,14 @@ scr_track("Angle Difference", mdif);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Item Collecting 
-if obj_holding.holding 
-and (con_control.key_hold /*and con_control.key_grab*/)
-and distance_to_point(nearGrab.x, nearGrab.y) &lt; 50{
-    nearGrab.isCarried = true; 
-}
+            <string>///Item Collecting
+    if obj_holding != -4{ 
+        if obj_holding.holding 
+        and (con_control.key_hold)
+        and distance_to_point(nearGrab.x, nearGrab.y) &lt; 50{
+            obj_holding.isCarried = true; 
+        }
+    }
 </string>
           </argument>
         </arguments>
@@ -160,11 +169,13 @@ and distance_to_point(nearGrab.x, nearGrab.y) &lt; 50{
             <kind>1</kind>
             <string>///Rotation/Angle handling
 
-var chkx, chky,
-    can_rotate,
-    chka, chkLeft,
-    chkRight; 
-    
+//Temporary Variables
+    var chkx, chky,
+        can_rotate,
+        chka, chkLeft,
+        chkRight; 
+   
+//Checks 
     if mdif = 1 chka = 180;
     else chka = 0; 
 
@@ -181,38 +192,17 @@ var chkx, chky,
 
     chkRight = position_meeting( x + chkx, y + chky,obj_wall);
 
-scr_track( "player_angle" , string( image_angle ) );
-
-if ( instance_exists(con_level) ){
-
-
-    
-    if con_control.key_rotate_left and !chkLeft{
-        //con_level.world_angle -= 1;
+//View Rotational Code
+    if ( instance_exists(con_level) ){
+        if con_control.key_rotate_left and !chkLeft{        
+            rotation_base += -rotation_speed;
+            }
         
-        //phy_rotation -= 2; 
-        
-        //phy_angular_velocity = -rotation_speed;
-        
-        rotation_base += -rotation_speed;
-        
-    }
-    
-    if con_control.key_rotate_right and !chkRight{
-        //phy_rotation += 2;
-
-        //phy_angular_velocity = rotation_speed; 
-        
-        //con_level.world_angle += 1; 
-        
-        rotation_base += rotation_speed;
-    }
-    
-    view_angle = rotation_base; 
-    
-}
-
-//phy_rotation = player_angle + angle_adjst; 
+        if con_control.key_rotate_right and !chkRight{
+            rotation_base += rotation_speed;
+        }   
+        view_angle = rotation_base;   
+    } 
 
 //Arm Angles
     if state_look_dir = 1{
@@ -222,18 +212,12 @@ if ( instance_exists(con_level) ){
         if state_a_holding arm_back_angle_set = -rotation_base + 330
         else arm_back_angle_set = 0;  
     }
-   
 
-
-
-if (!state_m_left and !state_m_right){
-    //phy_rotation = player_angle;
-}
-
-var ang = point_direction(phy_position_x, phy_position_y-20, mouse_x, mouse_y) + phy_rotation;
-var dif = angle_difference(ang, head_angle);
-head_angle = scr_convert_angle(head_angle)
-head_angle += median(-5, dif, 5); 
+//Head Angle
+    var ang = point_direction(phy_position_x, phy_position_y-20, mouse_x, mouse_y) + phy_rotation;
+    var dif = angle_difference(ang, head_angle);
+    head_angle = scr_convert_angle(head_angle)
+    head_angle += median(-5, dif, 5); 
 </string>
           </argument>
         </arguments>

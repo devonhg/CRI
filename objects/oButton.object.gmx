@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-10</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -28,7 +28,7 @@
             <string>///Core
 buttonType = 0;//The type of button, 0 = toggle, 1 = Normal 
 buttonName = "NoName";//Button Name
-state = 0;// The "State" of the Button
+state = false;// The "State" of the Button
 sprite = 0;// The Primary Sprite
 buttonDown = 0;// The button down sprite
 font = "";//The Font to use
@@ -155,7 +155,7 @@ draw_set_color(fontColor);
 
 if showName = true { draw_text(round(x),round(y-1.2),buttonName); }
 
-draw_set_color(-1);
+draw_set_color(c_black);
 draw_set_font(-1);
 draw_set_valign(-1);
 draw_set_halign(-1);

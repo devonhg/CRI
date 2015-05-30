@@ -25,38 +25,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Variables
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//phy_fixed_rotation = true; 
-
-move_speed = 200;
-max_speed = 25; 
-
-holding = false; 
-isCarried = false; 
+            <string>///Set Variables
+    move_speed = 200;
+    max_speed = 25; 
+    
+    holding = false; 
+    isCarried = false; 
 
 //Variables for Grabbing
-hold_x = 0; 
-hold_y = 0; 
+    hold_x = 0; 
+    hold_y = 0; 
 
 </string>
           </argument>
@@ -81,21 +59,15 @@ hold_y = 0;
           <argument>
             <kind>1</kind>
             <string>///Variables
-
-hold_x = abs(mouse_x - x); 
-hold_y = abs(mouse_y - y); 
-
-key_grab_pressed = con_control.key_grab_pressed or con_control.key_hold_pressed;
-key_grab = con_control.key_grab or con_control.key_hold; //This variable is for actually "grabbing" the object. 
-
-key_rotate_left = con_control.key_rotate_left; 
-key_rotate_right = con_control.key_rotate_right; 
-
-//grasp = key_grab or key_hold; //This is a single variable to track grabbing or holding
-
-wall_check = collision_line(x,y, obj_player.x, obj_player.y, obj_wall, true, true) or collision_line(x,y, obj_player.x, obj_player.y, phy_phiscs_nocollide, true, true);
-player_check = instance_place(x+5,y,obj_player) or instance_place(x-5,y,obj_player)
-                or instance_place(x,y+5,obj_player) or instance_place(x,y-5,obj_player)
+    hold_x = abs(mouse_x - x); 
+    hold_y = abs(mouse_y - y); 
+    
+    key_grab_pressed = con_control.key_grab_pressed or con_control.key_hold_pressed;
+    key_grab = con_control.key_grab or con_control.key_hold; //This variable is for actually "grabbing" the object. 
+//Checks
+    wall_check = collision_line(x,y, obj_player.x, obj_player.y, obj_wall, true, true) or collision_line(x,y, obj_player.x, obj_player.y, phy_phiscs_nocollide, true, true);
+    player_check = instance_place(x+5,y,obj_player) or instance_place(x-5,y,obj_player)
+                    or instance_place(x,y+5,obj_player) or instance_place(x,y-5,obj_player)
 </string>
           </argument>
         </arguments>
@@ -119,58 +91,55 @@ player_check = instance_place(x+5,y,obj_player) or instance_place(x-5,y,obj_play
             <string>///Engine
 
 //Test to set when holding equals true
-if key_grab 
-and position_meeting(mouse_x,mouse_y, id)
-and !wall_check{ 
-    holding = true; 
-}
+    if key_grab 
+    and position_meeting(mouse_x,mouse_y, id)
+    and !wall_check
+    and (obj_player.obj_holding = id or obj_player.obj_holding = -4 ){ 
+        holding = true; 
+    }
 
-//Check if there is a wall between player and object. Drop if there is. 
-if (wall_check) 
-or (!key_grab and holding){
-    holding = false; 
-}
+//Conditions to set holding to false. 
+    if (wall_check) 
+    or (!key_grab and holding)
+    or obj_player.obj_holding != id{
+        holding = false; 
+    }
 
 //Core holding code
-if holding and key_grab{
-    physics_apply_force(x,y, 0, (-15 * phy_mass));  
-    if !collision_line(x,y,mouse_x,mouse_y,obj_player,0,0) physics_apply_impulse(x, y, mouse_x-x, mouse_y-y);  
-    if phy_speed_x &gt; max_speed phy_speed_x = max_speed;
-    if phy_speed_y &gt; max_speed phy_speed_y = max_speed; 
-    
-    if distance_to_point(mouse_x, mouse_y) &lt; 1 and !con_control.key_grab{    
-        phy_speed_x = 0;
-        phy_speed_y = 0;
+    if holding and key_grab{
+        physics_apply_force(x,y, 0, (-15 * phy_mass));  
+        if !collision_line(x,y,mouse_x,mouse_y,obj_player,0,0) physics_apply_impulse(x, y, mouse_x-x, mouse_y-y);  
+        if phy_speed_x &gt; max_speed phy_speed_x = max_speed;
+        if phy_speed_y &gt; max_speed phy_speed_y = max_speed; 
         
-        if abs(phy_position_x - mouse_x) != 0{
-            if phy_position_x &lt; mouse_x phy_position_x++;
-            else if phy_position_x &gt; mouse_x phy_position_x--;
-        }
-        if abs(phy_position_x - mouse_x) &lt; 2 phy_position_x = mouse_x;
-        
-        if abs(phy_position_y - mouse_y) != 0{
-            if phy_position_y &lt; mouse_y phy_position_y++;
-            else if phy_position_y &gt; mouse_y phy_position_y--;
-        }
-        if abs(phy_position_y - mouse_y) &lt; 2 phy_position_y = mouse_y;   
-    }  
-}
-
-//Object Rotation Keys
-if holding and key_rotate_right{ physics_apply_angular_impulse(2) }
-if holding and key_rotate_left{ physics_apply_angular_impulse(-2) }
+        if distance_to_point(mouse_x, mouse_y) &lt; 1 and !con_control.key_grab{    
+            phy_speed_x = 0;
+            phy_speed_y = 0;
+            
+            if abs(phy_position_x - mouse_x) != 0{
+                if phy_position_x &lt; mouse_x phy_position_x++;
+                else if phy_position_x &gt; mouse_x phy_position_x--;
+            }
+            if abs(phy_position_x - mouse_x) &lt; 2 phy_position_x = mouse_x;
+            
+            if abs(phy_position_y - mouse_y) != 0{
+                if phy_position_y &lt; mouse_y phy_position_y++;
+                else if phy_position_y &gt; mouse_y phy_position_y--;
+            }
+            if abs(phy_position_y - mouse_y) &lt; 2 phy_position_y = mouse_y;   
+        }  
+    }
 
 //Carried Conditions    
-if isCarried and !holding{
-    physics_apply_force(x,y, 0, (-15 * phy_mass)); 
-    scr_phy_followObject(obj_player, 100, 12);
-}
+    if isCarried and !holding{
+        //physics_apply_force(x,y, 0, (-15 * phy_mass)); 
+        scr_phy_followObject(obj_player, 200, 12);
+    }
 
 //If for some reason the object is too far from the player it's dropped
-if distance_to_point(obj_player.x, obj_player.y) &gt; 100{
-    isCarried = false; 
-}
-
+    if distance_to_point(obj_player.x, obj_player.y) &gt; 100{
+        isCarried = false; 
+    }
 </string>
           </argument>
         </arguments>

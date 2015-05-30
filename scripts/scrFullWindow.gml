@@ -12,25 +12,26 @@ Set SetScale to 0 for automatic scaling as high as possible while keeping it and
 scrFullWindow(screen scale, set Height, __setScale)
 */
 
+//Declare Variables
 var __setHeight, __setScale, __ratVal, __H, __W , __dispW, __dispH, __scaleTo;
 
 __setHeight = argument[0];
 __setScale = argument[1];
 
 //Obtain ratio value of the monitor
-__dispW= display_get_width();
-__dispH= display_get_height();
-__ratVal = __dispW/__dispH;
+    __dispW= display_get_width();
+    __dispH= display_get_height();
+    __ratVal = __dispW/__dispH;
 
-view_visible[0] = true;
-view_enabled = true;
+    view_visible[0] = true;
+    view_enabled = true;
 
 //Floor height and width settings to round values
-__H = floor(__setHeight);
-__W = floor(__setHeight*__ratVal);
-
-view_hview[0] = __H;
-view_wview[0] = __W;
+    __H = floor(__setHeight);
+    __W = floor(__setHeight*__ratVal);
+    
+    view_hview[0] = __H;
+    view_wview[0] = __W;
 
 //Decide how to scale the window and actually scale it, based on the setting.
 if __setScale = 0{

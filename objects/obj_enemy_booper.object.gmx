@@ -97,7 +97,6 @@ boop_counter = 0;
 }else{
     image_index = 1; 
 }
-cMaster.test0 = "HP: " +string(hp);
 
 </string>
           </argument>

@@ -45,17 +45,17 @@
 */
 
 //Set height the button will float
-_button_height = y-sprite_height/5;
+    _button_height = sprite_height/5;
 
-//The button itself
-_button = instance_create(x,_button_height, obj_button_top);
+//Create the button top and set attributes
+    var XX = x + lengthdir_x(_button_height, image_angle + 90);
+    var YY = y + lengthdir_y(_button_height, image_angle + 90);
+    
+    _button = instance_create( XX, YY, obj_button_top);
+    _button.phy_rotation = phy_rotation; 
 
 //Button State
-state = false; 
-
-//Object to affect state of. Set using an "instance_position" function in the room
-//editor
-//name = "null";
+    state = false; 
 
 </string>
           </argument>

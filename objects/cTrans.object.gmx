@@ -41,6 +41,7 @@ fadeC = 0;
 fadeToRoom = -1;
 fading = false;
 col = c_black;
+fade_speed = .02;
 </string>
           </argument>
         </arguments>
@@ -72,12 +73,12 @@ col = c_black;
 
 if fade = false and fadeAlpha &gt;= 0{
     fadeC = 0;
-    fadeAlpha -= .05;  
+    fadeAlpha -= fade_speed;  
     col = c_black;//Sets color to default                     
 }
 if fade = true and fadeAlpha &lt;= 1 {
     fadeC = 0;
-    fadeAlpha += .05;              
+    fadeAlpha += fade_speed;              
 }
 if fade = true and fadeToRoom != -1{
     if fadeAlpha &gt;= 1 room_goto(fadeToRoom)

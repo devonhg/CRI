@@ -3,7 +3,7 @@
     You can use this script to add multiple controllers to a single room.
 */
 
-var __object, __room, i , j;
+var __objects, __room, i , j;
 
 __room = argument[0];
 __objects[0] = argument[1];

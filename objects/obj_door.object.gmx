@@ -27,16 +27,19 @@
             <kind>1</kind>
             <string>///Declare Variables
 
-ySpd = 5; 
+Spd = 5; 
 yHome = y;
+xHome = x; 
 par_frame = -1;//The parenting frame object.
 
+
+/*
 for (i = 0; i &lt; (sprite_height * 10) ; i+= sprite_height){
     par_frame = instance_position(x,y-i,obj_door_frame);
     if par_frame != noone{
         break; 
     }
-}
+}*/
 </string>
           </argument>
         </arguments>
@@ -61,12 +64,23 @@ for (i = 0; i &lt; (sprite_height * 10) ; i+= sprite_height){
             <kind>1</kind>
             <string>///Core door movement
 
+var parX = par_frame.x,
+    parY = par_frame.y;
+
 state = par_frame.state;//0 = close, 1 = open
 
-if state = 0 and phy_position_y &lt; yHome and !place_meeting(x, yHome, par_physics){
-    phy_position_y += min(ySpd, yHome - phy_position_y);
-}else if state = 1 and phy_position_y &gt; par_frame.phy_position_y{
-    phy_position_y -= min(ySpd, phy_position_y - par_frame.phy_position_y);
+//scr_zero( 10, 11, 5, 1);
+
+if( state = 1 ){//Open
+    if( x != parX || y != parY ){
+        phy_position_x += scr_zero( Spd * sign( parX - x ), parX - x ) ; 
+        phy_position_y += scr_zero( Spd * sign( parY - y ), parY - y ); 
+    }
+}else{//Close
+    if (x != xHome || y != yHome){
+        phy_position_x += scr_zero( Spd * sign( xHome - x ), xHome - x ); 
+        phy_position_y += scr_zero( Spd * sign( yHome - y ), yHome - y ); 
+    }   
 }
 </string>
           </argument>

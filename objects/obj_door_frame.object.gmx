@@ -40,7 +40,7 @@
           <argument>
             <kind>1</kind>
             <string>///Declare Variables
-state = 1; 
+state = 0; 
 //name = 'null';
 </string>
           </argument>
@@ -62,11 +62,29 @@ state = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Create door objects. 
-for(i = 0; i &lt; (sprite_height * 10) ; i+= sprite_height){
-    if position_meeting(x,y+i, par_physics) break;     
-    instance_create(x,y+i, obj_door); 
+            <string>///Create door objects.
+var ver = 0,
+    hor = 0,
+    XX = 0,
+    YY = 0,
+    i = 0,
+    door = -4;
+    
+for( i = 0; i &lt; 360; i+=90 ){
+    XX = lengthdir_x( sprite_width, i );
+    YY = lengthdir_y( sprite_height, i );
+    if( !position_meeting( x + (XX), y + (YY), par_physics ) ){
+        for( i = 0; i &lt; 10; i += 1 ){
+            if position_meeting( x + (XX * i), y + (YY * i), par_physics ) break; 
+            door = instance_create( x + (XX * i),  y + (YY * i), obj_door ); 
+            door.par_frame = id; 
+        }   
+        break;      
+    }
 }
+
+ 
+
 </string>
           </argument>
         </arguments>

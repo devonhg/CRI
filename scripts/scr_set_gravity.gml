@@ -1,4 +1,4 @@
-///scr_set_gravity( Direction )
+///scr_set_gravity( Direction, force )
 /*
     This script accepts a direction between 0 and 360 and applies gravity in that direciton
     Physics based. 

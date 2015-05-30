@@ -30,10 +30,23 @@
     associated with the obj_button_bottom. 
 */
 
-//Max possible height of button
-_max_height = instance_nearest(x,y,obj_button_bottom)._button_height;
+//Declaring Temporary Variables
+    var button = instance_nearest(x,y,obj_button_bottom),
+        button_angle = button.image_angle + 90,
+        button_dist_max =  button.sprite_height/5,
+        button_dist_min =  button.sprite_height/2,
+        XX = phy_position_x,
+        YY = phy_position_y; 
 
-phy_fixed_rotation = true; 
+//Height Variables.
+    max_height_x = floor(button.x + lengthdir_x( button_dist_max, button_angle ));
+    max_height_y = floor(button.y + lengthdir_y( button_dist_max, button_angle ));
+    min_height_x = floor(button.x + lengthdir_x( button_dist_min, button_angle + 180));
+    min_height_y = floor(button.y + lengthdir_y( button_dist_min, button_angle + 180)); 
+    current_height = abs(point_distance(XX,YY, min_height_x, min_height_y));
+    
+//Physics Properties
+    phy_fixed_rotation = true; 
 </string>
           </argument>
         </arguments>
@@ -56,13 +69,39 @@ phy_fixed_rotation = true;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>_base = instance_nearest(x,y,obj_button_bottom);    
+            <string>_base = instance_nearest(x,y,obj_button_bottom);   
 
 //This is the variable that will "push" the button back up
-var _thrust = 0; 
+var _thrust = 0,
+    XX = phy_position_x,
+    YY = phy_position_y,
+    _pol = point_on_line(max_height_x, max_height_y, min_height_x, min_height_y, XX, YY);
+
+//Keep Center
+    if ( !_pol ){
+        XX = (min_height_x + lengthdir_x(current_height, image_angle + 90));
+        YY = (min_height_y + lengthdir_y(current_height, image_angle + 90));
+        phy_speed_y = 0;
+        phy_speed_x = 0;
+    }else{
+        current_height = round(abs(point_distance(XX,YY, min_height_x, min_height_y)));
+    }
+
+//Upward Force
+    scr_set_gravity( image_angle + 90, 5 * phy_mass )
+
+//Conditions for if it's on or not. 
+    if point_distance(_base.x,_base.y,x,y) &lt; 2{
+        _base.state = true;  
+    }else{
+        _base.state = false; 
+    }
+    
+phy_position_x = XX;
+phy_position_y = YY; 
 
 //Keep button Center
-if phy_position_x &gt; _base.phy_position_x or 
+/*if phy_position_x &gt; _base.phy_position_x or 
 phy_position_x &lt; _base.phy_position_x{
     phy_position_x = _base.phy_position_x;    
 }
@@ -71,8 +110,10 @@ phy_position_x &lt; _base.phy_position_x{
 if phy_position_y &lt; _max_height{
     phy_position_y = _max_height;
 }else{
-    scr_set_gravity( image_angle + 90 , (1 * phy_mass) );
+    //scr_set_gravity( image_angle + 90 , (1 * phy_mass) );
 }
+
+//scr_track( "Point on Line", point_on_line() )
 
 //Conditions for if it's on or not. 
 if point_distance(_base.x,_base.y,x,y) &lt; 2{
@@ -83,7 +124,7 @@ if point_distance(_base.x,_base.y,x,y) &lt; 2{
 
 //Hover code/Force application. 
 //physics_apply_force(x,y, 0, (-15 * phy_mass) + _thrust);
-
+*/
 
 </string>
           </argument>
@@ -94,7 +135,7 @@ if point_distance(_base.x,_base.y,x,y) &lt; 2{
   <PhysicsObject>-1</PhysicsObject>
   <PhysicsObjectSensor>0</PhysicsObjectSensor>
   <PhysicsObjectShape>1</PhysicsObjectShape>
-  <PhysicsObjectDensity>10</PhysicsObjectDensity>
+  <PhysicsObjectDensity>1</PhysicsObjectDensity>
   <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
   <PhysicsObjectGroup>0</PhysicsObjectGroup>
   <PhysicsObjectLinearDamping>0.100000001490116</PhysicsObjectLinearDamping>

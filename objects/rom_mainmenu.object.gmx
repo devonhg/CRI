@@ -3,8 +3,8 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-9999</depth>
-  <persistent>-1</persistent>
+  <depth>0</depth>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,14 +25,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Core - Game Settings
-//gVersion = "indev 1.0";
-//gName = "CRI";
+            <string>///Initialize Variables
 
-//debug array
-for (i=0 ; i &lt; 20 ; i++){
-    debug_vars[i,0] = ""; 
-}
+startGame = false;
+
+title_stagger = 8; 
+title_s_c = 0; 
+title_s_x = 0; 
+title_s_y = 0; 
+
+l_alpha = 1;
 </string>
           </argument>
         </arguments>
@@ -53,32 +55,18 @@ for (i=0 ; i &lt; 20 ; i++){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Core - Variables
-debugMode = false
-Paused = false;
-gameSpeed = 60;
-test0 = 0;
-test1 = 0;
-test2 = 0;
-test3 = 0;
-test4 = 0;
-test5 = 0;
-test6 = 0;
-test7 = 0;
-test8 = 0;
-test9 = 0; 
-xGrid = 16;
-yGrid = 16;
+            <string>///Alarm for Create Event
+alarm[0] = 2; 
 
-phy_xgrav = 0;
-phy_ygrav = 15;
+view_xview = (room_width/2) - (view_wview/2); 
+view_yview = (room_height/2) - (view_hview/2); 
 
-phy_xgrav_set = phy_xgrav;
-phy_ygrav_set = phy_ygrav;
-
-world_rotation = 0; 
-
-//window_set_caption(gName + " " + gVersion);
+startGame = scr_button(
+    scr_mgWidth(12), 
+    scr_mgHeight(8), 
+    "Start Game",
+    spr_button
+);
 </string>
           </argument>
         </arguments>
@@ -99,15 +87,35 @@ world_rotation = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Add persistent control objects
-instance_create(x,y,con_control); 
-instance_create(x,y, cTrans);
+            <string>///Particle System
+
+Sname=part_system_create();
+
+particle1=part_type_create()
+part_type_shape(particle1,pt_shape_line);
+part_type_size(particle1,.2,.2,0,0);
+part_type_speed(particle1,1,1,.2,0);
+part_type_direction(particle1,270,270,0,0);
+part_type_orientation(particle1,0,0,0,0,1);
+part_type_color2(particle1,16777088,16777215);
+part_type_alpha2(particle1,1,0); 
+part_type_scale(particle1,1,1);
+part_type_gravity(particle1,0,270);
+part_type_life(particle1,40,60);
+part_type_blend(particle1,1);
+
+emitter1=part_emitter_create(Sname);
+part_emitter_region(Sname,emitter1,view_xview ,view_xview + view_wview,view_yview-30,view_yview-30,ps_shape_rectangle,ps_distr_linear);
+// //Place this in the event that creates the particles
+
+
+
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="4">
+    <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -124,12 +132,72 @@ instance_create(x,y, cTrans);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Core - Controller Inclusions 
-    scr_obj_to_rooms(rom_intro, rm_intro);
-    scr_obj_to_rooms(con_level, rm_core);
-    scr_obj_to_rooms(rom_mainmenu, rm_mainmenu);
-    scr_room_to_objects(rm_test, rom_test, con_level ); 
-    scr_room_to_objects(rm_denial, rom_denial, con_level ); 
+            <string>///Create Buttons and set view. 
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>l_alpha = .7 + random(.2); 
+
+part_emitter_burst(Sname,emitter1,particle1,1);
+
+if startGame.state{
+    fadeTo( c_black, rm_core );
+}
+
+
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_set_alpha( l_alpha );    
+    draw_sprite( 
+        spr_logo_2,
+        0, 
+        scr_mgWidth(6),
+        scr_mgHeight(5)
+    );
+draw_set_alpha(1);
 </string>
           </argument>
         </arguments>
